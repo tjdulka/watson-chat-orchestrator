@@ -1,0 +1,55 @@
+<script>
+	$(document).ready(function() {
+		function setTemplateValues(docs, i) {
+			document.getElementById('cursor').innerHTML = i.toString();
+			document.getElementById('cursor_length').innerHTML = docs.length.toString();
+			document.getElementById('doc_title').innerHTML = docs[i-1].title;
+			var doc_body = docs[i-1].body;
+			if (doc_body.length > 150) {
+				doc_body = doc_body.substring(0, 150) + "...";
+			}
+			document.getElementById('doc_body').innerHTML = doc_body;
+		}
+		var docs = {{context.Payload|tojson}};
+		var i = parseInt(document.getElementById('cursor').innerHTML);
+		setTemplateValues(docs, i);
+		$("form[name='search_results']").find("input[name='response_input'][value='Prev']").click(function (event) {
+			event.preventDefault();
+			var i = parseInt(document.getElementById('cursor').innerHTML);
+			var j = parseInt(document.getElementById('cursor_length').innerHTML);
+			i = i - 1;
+			if (i == 0) {
+				i = j;
+			}
+			setTemplateValues(docs, i);
+		})
+		$("form[name='search_results']").find("input[name='response_input'][value='Next']").click(function (event) {
+			event.preventDefault();
+			var i = parseInt(document.getElementById('cursor').innerHTML);
+			var j = parseInt(document.getElementById('cursor_length').innerHTML);
+			i = i + 1;
+			if (i > j) {
+				i = 1;
+			}
+			setTemplateValues(docs, i);
+		})
+	})
+</script>
+<form action='/form?form_type=update_crm_address' name='search_results' method='POST'>
+	<div style='height: 250px;'>
+		<p>
+			BROWSE RELEVANT DOCUMENTS<br>
+			Showing doc: <span id='cursor'>1</span> of <span id='cursor_length'>cursor_length</span>
+		</p>
+		<p>
+			<em><b><span id='doc_title'>doc_title</span></b></em><br><br>
+			<span id='doc_body'>This is where the text will go. This is the body of the article. Presumably this will be text that is very relevant to your question.</span><br><br>
+			Click <b>here</b> to retrieve full document<br>
+		</p>
+	</div>
+<!--<em>Please click 'Update' when you've entered the information.</em>-->
+	<p>
+		<input type='submit' name='response_input' value='Next'/>
+		<input type='submit' name='response_input' value='Prev'/>
+	</p>
+</form>

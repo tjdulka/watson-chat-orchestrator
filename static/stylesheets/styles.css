@@ -1,0 +1,334 @@
+/* color pallette calculated at paletton.com */
+.color-background-1 { color: #2A2B2B }	/* Background color */
+.color-background-2 { color: #252525 }
+.color-background-3 { color: #343535 }
+
+.color-primary-0 { color: #5A4E77 }		/* Main Primary color */
+.color-primary-1 { color: #9B94AC }
+.color-primary-2 { color: #766C8E }
+.color-primary-3 { color: #43375F }
+.color-primary-4 { color: #2F214E }
+
+.color-secondary-1-0 { color: #A7AB6A }	/* Main Secondary color (1) */
+.color-secondary-1-1 { color: #F6F8D1 }
+.color-secondary-1-2 { color: #CACD96 }
+.color-secondary-1-3 { color: #858849 }
+.color-secondary-1-4 { color: #6D7129 }
+
+.color-secondary-2-0 { color: #AD996B }	/* Main Secondary color (2) */
+.color-secondary-2-1 { color: #FBEFD4 }
+.color-secondary-2-2 { color: #D0BF98 }
+.color-secondary-2-3 { color: #8A774A }
+.color-secondary-2-4 { color: #725C29 }
+
+/* General styles */
+html, body {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+body {
+	background-color: #252525; /* #ecece9; */
+	font-family: Tahoma, Verdana, Segoe, sans-serif;
+/*	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; */
+/*	font-family: Arial, Calibri, Optima, sans-serif; */
+	color: rgb(102, 102, 102);
+	line-height: 20px;
+	font-size: 16px;
+}
+body * {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+}
+/* moved from modal */
+body.loading {
+	overflow: hidden;   
+}
+h1 {
+	margin: 0; 
+	padding: 0;
+	font-size: 32px;
+}
+h3 {
+	font-size: 19px;
+	font-weight: normal;
+	color: #FBEFD4;
+	margin-top: 0; /* added */
+/*	color: #0696d7; */
+}
+button, input[type="submit"] {
+	margin-top: 1em;
+	padding: .5em 1em;
+	width: 90px;
+	border: 0;
+	background-color: #43375F; /* #327084; */
+	color: #fff;
+	font-size: 15px;
+	text-transform: uppercase;
+}
+	button:hover, input[type="submit"]:hover {
+		cursor: pointer;
+	}
+
+/* Layout */
+.container {
+	max-width: 1240px; 
+	background-color: #343535; /* #fff; */
+	margin: 0 auto;
+	box-shadow: 0 0 6px 0 rgba(0,0,0,.25);
+}
+	aside {
+		float: right; 
+		width: 30%;
+	/*	border-left: 1px dashed #DADADA; */
+		padding: 2em;
+	}	
+
+/* Header */
+	header {
+		height: 54px;
+		background: url(../images/logo.png) no-repeat 30px 15px #2A2B2B; /* #f5f5f5; */
+		text-indent: -999em;
+	}
+
+/* Chat */
+.chat {
+	float: left;
+	width: 70%;
+	padding: 2em;
+	border-right: 1px dashed #DADADA; /* moved from aside */
+}
+	#chat {
+		max-height: 500px;
+		overflow: auto;
+		margin-bottom: 2em;
+	}
+		.Watson, .Partner {
+			border-radius: 5px;
+			clear: both;
+			margin-bottom: 1em;
+			padding: 1em;
+		}
+		.Watson {
+			background-color: rgba(114, 92, 41, .66); /* rgba(6, 150, 215, .2); */
+			color: #CACD96; /* added */
+		}
+		.Partner {
+			background-color: rgba(109, 113, 41, .66); /* rgba(135, 188, 64, .2); */
+			color: #D0BF98; /* added */
+		}
+			.Watson:before {
+				background: url(../images/watson.png) no-repeat center center rgba(114, 92, 41, .5);  /*rgba(6, 150, 215, .5); */
+				background-size: 80%;
+			}
+			.Partner:before {
+				background: url(../images/user-profile_32.svg) no-repeat center center rgba(109, 113, 41, .5); /*rgba(135, 188, 64, .5); */
+				background-size: 60%;
+			}
+			.Watson:before, .Partner:before {
+				display: block;
+				float: left;
+				width: 30px;
+				height: 30px;
+				margin-right: 1em;
+				border-radius: 100em;
+				content: "";
+				padding: .5em;			
+			}
+			.Watson p, .Partner p {
+				margin: 0 0 .5em;
+			}
+			.Watson time, .Partner time {
+				font-size: 12px;
+				font-style: italic;
+				color: #000;
+			}
+			.Watson .messages, .Partner .messages {
+				margin-left: 4em;
+			}
+	.chat--input input {
+		width: 70%;
+		padding: .3em .5em;
+		font-size: 16px;
+	}
+
+/* FAQ*/
+.faq {
+	margin-bottom: 2em;
+	color: #9B94AC; /* added */
+}
+	form ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+	form em {
+		display: inline-block;
+		margin-bottom: .5em;
+		font-size: 14px;
+	/*	color: #999; */
+	}
+		form li {
+			margin-bottom: .8em;
+		}
+			form label {
+				display: inline-block;
+				margin-bottom: .2em;
+			}
+			form input {
+				width: 100%;
+				padding: .3em .5em;
+				font-size: 16px;
+				margin-bottom: .5em; /* added */
+			}
+			form select {
+				width: 100%;
+				padding: .3em .5em;
+				font-size: 16px;
+				margin-bottom: .5em; /* added */
+			}
+			/* added */
+			.faq form button, input[type="submit"] {
+				width: 100%;
+				margin-bottom: .2em;
+			}
+/* Footer */
+footer {
+	clear: both;
+	padding: 12px 0 24px 30px;
+	background-color: #2A2B2B; /* #edede9; */
+	color: #9B94AC; /* rgb(102, 102, 102); */
+	font-size: 12px;
+}
+	footer p {
+		margin: 0; 
+		padding: 0;
+	}
+/* Media queries */
+@media (max-width: 890px) {
+	.chat, aside {
+		width: 100%; 
+		float: none;
+	}
+}
+@media (max-width: 400px) {
+	.chat--input input {
+		width: 100%;
+		margin-bottom: .3em;
+	}
+	.chat--input button {
+		width: 100%;
+	}
+}
+/* Modal */
+.modal {
+	display:    none;
+	position:   fixed;
+	z-index:    1000;
+	top:        0;
+	left:       0;
+	height:     100%;
+	width:      100%;
+	background: rgba(155, 148, 172, .5) /* rgba(  255, 255, 255, .8) */
+	url('/static/images/spinner.gif')
+	50% 50% 
+	no-repeat;
+}
+body.loading .modal {
+	display: block;
+}
+/* The Modal (background) */
+.modalComments {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 200px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    background-color: rgba(155, 148, 172, .5); /* added */
+}
+
+/* Modal Content */
+.modal-content {
+    position: relative;
+    background-color: #5A4E77; /* #fefefe; */
+    margin: auto;
+    padding: 0;
+    border: 1px solid #2F214E; /* #888; */
+    width: 50%;
+	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+    from {top:-300px; opacity:0} 
+    to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+}
+
+/* The Close Button */
+.close {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #A1BCFF;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-header {
+    padding: 2px 16px;
+/*	background-color: rgba(6, 150, 215, .2); */
+    background-color: rgba(118, 148, 142, .2); /* modified */
+    color: black;
+	text-align: center;
+}
+
+.modal-body {
+	padding: 2px 16px;
+}
+
+.modal-footer {
+    padding: 2px 16px;
+/*	background-color: rgba(6, 150, 215, .2); */
+    background-color: rgba(118, 148, 142, .2); /* modified */
+    color: white;
+}
+
+/*textarea styling */
+textarea#commentArea {
+	resize: none;
+   	color: rgb(102, 102, 102);
+	line-height: 20px;
+	font-size: 16px;
+}
+
+.button_comment_center {
+    text-align: center;
+}
+
+/* loading modal */
+
+/* Red input border on failed lookup */
+.highlightRed {
+    border:2px solid red;
+}

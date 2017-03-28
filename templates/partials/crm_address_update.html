@@ -1,0 +1,40 @@
+<script>
+function setSelectedOption(option_id) {
+	if (option_id.length > 0) {
+		option = document.getElementById(option_id)
+		if (option !== null) {
+			option.selected = "true";
+		}
+	}
+}
+window.onload = function() 
+{
+	setSelectedOption("{{context.Address_Type}}");
+};
+</script>
+<form action='/form?form_type=update_crm_address' method='POST'>
+	<p>
+		UPDATE CURRENT ADDRESS<br>
+		cust_id: {{context.dv("cust_id")}}<br>
+		e-mail: {{context.dv("Email")}}
+	</p>
+	<p>
+		<span style='width: 120px; display:inline-block;'>Address Line 1:</span> <input type='text' name='Address_Line_1' value='{{context.dv("Address_Line_1")}}'/><br>
+		<span style='width: 120px; display:inline-block;'>Address Line 2:</span> <input type='text' name='Address_Line_2' value='{{context.dv("Address_Line_2")}}'/><br>
+		<span style='width: 120px; display:inline-block;'>City:</span> <input type='text' name='City' value='{{context.dv("City")}}'/><br>
+		<span style='width: 120px; display:inline-block;'>State:</span> <input type='text' name='State' value='{{context.dv("State")}}'/><br>
+		<span style='width: 120px; display:inline-block;'>Zip:</span> <input type='text' name='Zip' value='{{context.dv("Zip")}}'/><br>
+		<span style='width: 120px; display:inline-block;'>Address Type:</span> 
+		<select name='Address_Type'>
+			<option id='Billing'>Billing</option>
+			<option id='Mailing'>Mailing</option>
+		</select>
+		<input type='hidden' name='cust_id' value='{{context.dv("cust_id")}}'/>
+		<input type='hidden' name='Email' value='{{context.dv("Email")}}'/>
+	</p>
+<!--<em>Please click 'Update' when you've entered the information.</em>-->
+	<p>
+		<input type='submit' name='response_input' value='Update'/>
+		<input type='submit' name='response_input' value='Cancel'/>
+	</p>
+</form>

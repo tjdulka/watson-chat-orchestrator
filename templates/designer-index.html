@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Watson Developer Cloud</title>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<script type='text/javascript' src="../static/javascript/jquery.min.js"></script>
+		<script type='text/javascript' src="../static/javascript/jquery.validate.min.js"></script>
+		<script type='text/javascript' src="../static/javascript/jquery.inputmask.bundle.js"></script>
+		<link href="/static/stylesheets/styles.css" rel="stylesheet">
+	</head>
+	<body>
+		<div class="container">
+  			<a href="/">  
+<!--  			<a href="#">  -->
+<!-- 			<a href="javascript:;">  -->
+				<header>
+					<h1>Watson Developer Cloud...build with Watson!</h1>
+				</header>	
+			</a>
+			<main class="chat">
+				<div id="chat">
+					{% for post in posts %}
+					<div class='{{post.style}}'>
+						<div class='messages'>
+							<p>{% autoescape false %}{{post.text}}{% endautoescape %}</p>
+							<time datetime='{{post.datetime}}'>{{post.name}} • {{post.datetime}}</time>
+						</div>
+					</div>
+					{% endfor %}
+				</div>
+				<script type="text/javascript">
+		var element = document.getElementById("chat");
+		element.scrollTop = element.scrollHeight;
+				</script>
+				<!-- Additions for TTS & STT -->
+				<p><input id="voice" type="checkbox" /> Use voice</p>
+				<form class="chat--input" action='.' method='POST'>
+					<input autofocus id="response_input" name='response_input' placeholder="What's your question?"></input>
+					<button name='send-button'>Send</button>
+				</form>
+			</main>
+			<aside>
+				<section class="faq">
+					<h3>Forms</h3>
+					<div id='fromDialog'>{% autoescape false %}{% if form != '' %}{% include form %}{% endif %}{% endautoescape %}</div>
+				</section>
+			</aside>
+			<footer>
+				<p>&#169; 2016 IBM. All rights reserved.</p>
+			</footer>
+		</div>
+		<div class="modal"></div>
+		<div id="myModal" class="modalComments" style='display: none;'>
+			<div class="modal-content">
+				<div class="modal-header">
+					<span class="close">×</span>
+					<h2>Enter Comments</h2>
+				</div>
+				<div class="modal-body">
+					<p><textarea rows="10" id="commentArea" style="min-width: 100%"></textarea></p>
+				</div>
+				<div class="modal-footer">
+					<div class="button_comment_center">
+						<p>
+							<button type="button" name="commentOk">Submit</button>
+							<button type="button" name="commentCancel">Cancel</button>
+						</p>
+					</div>
+				</div>
+			</div>		
+		</div>
+		<!-- Additions for TTS & STT -->
+		<div id="what-to-say" style="display:none">{% autoescape false %}{{posts[-1].text}}{% endautoescape %}</div>
+		<script src="/static/scripts/watson-speech.min.js"></script>
+		<script>
+			var ttsToken = "{{tts_token}}";
+			var sttToken = "{{stt_token}}";
+		//	records microphone input to
+			function record() {
+			//	$micButton.addClass('active');
+				return WatsonSpeech.SpeechToText.recognizeMicrophone({
+					token: sttToken,
+				//	automatically stop at first pause
+					continuous: false,
+					outputElement: '#response_input',
+				//	don't add capitalization and periods to the input text
+					format: false
+				//	if using ajax to submit audio, this makes firefox only ask for mic permission once
+				//	keepMicrophone: navigator.userAgent.indexOf('Firefox') > 0
+				})
+				.promise()
+				.then(function() {
+					document.querySelector('form.chat--input').submit();
+				})
+				.catch(console.log);
+			}
+			var audio;
+			function say(text) {
+				if (audio) {
+					audio.pause();
+				}
+				return new Promise(function(resolve, reject){
+					audio = WatsonSpeech.TextToSpeech.synthesize({
+						text: text,
+						token: ttsToken,
+						voice: 'en-US_AllisonVoice'
+					});
+					audio.addEventListener('ended', resolve);
+					audio.addEventListener('error', reject);
+				});
+			}
+		//	control voice with a checkbox, remember it between pageviews
+			var voiceCheckbox = document.querySelector('#voice');
+		//	default to false, switch it to !== 'false' to default it to true
+			voiceCheckbox.checked = localStorage.usevoice === 'true';
+			function initVoice() {
+				if (voiceCheckbox.checked) {
+					say(document.querySelector('#what-to-say').textContent).then(record);
+				} else if (audio) {
+					audio.pause();
+				}
+				localStorage.usevoice = voiceCheckbox.checked;
+			}
+			voiceCheckbox.onclick = initVoice;
+			initVoice();
+		</script>
+		<script type='text/javascript'>
+	//	The following handle client side form validation -----------
+		$(document).ready(function() {
+			$("input[name='Phone_Number']").inputmask("999-999-9999");
+			$("input[name='Serial']").inputmask("999-99999999");
+			$("input[name='Request_Code']").inputmask("&&&& &&&& &&&& &&&& &&&& &&&& &&&& &&&&");
+			$('#response_input').prop( "enabled", true );
+			console.log('initial load');
+		});
+		</script>
+	</body>
+</html>

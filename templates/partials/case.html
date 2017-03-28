@@ -1,0 +1,146 @@
+<script>
+//	function setSelectedOption(option_id) {
+//		if (option_id.length > 0) {
+//			option = document.getElementById(option_id)
+//			if (option !== null) {
+//				option.selected = "true";
+//			}
+//		}
+//	}
+//	window.onload = function() 
+//	{
+//		setSelectedOption("{{context.dv('Product_Name')}}");
+//		setSelectedOption("{{context.dv('Product_Year')}}"); 
+//	};
+	$(document).ready(function() {
+		console.log('---case: document ready')
+	//	MODAL COMMENTS EVENT -----------
+		var commentModal = document.getElementById('myModal');
+	//	$("input[name='case_form']").find("input[name='response_input'][value='Add Comments']").click(function () {
+		$("input[id='Add_Comments']").click(function(event) {
+			console.log('Add Comments clicked');
+			commentModal.style.display = "block";
+			event.preventDefault();
+		});
+	//	END -----------
+	//	Modal COMMENTS Ok -----------
+		$("button[type='button'][name='commentOk']").click(function() {
+			console.log('Submit Comments');
+			$("input[type='hidden'][name='Description']").val($('#commentArea').val()) 
+			commentModal.style.display = "none";
+			console.log($('#commentArea').val() )
+		});		
+	//	END -----------  
+	//	Modal COMMENTS Cancel -----------
+		$("button[type='button'][name='commentCancel']").click(function() {
+			console.log('Cancel Comments');
+			commentModal.style.display = "none";
+			$('#commentArea').val('');
+		});
+	//	END -----------
+	//	X button for comments -----------
+		$("span[class='close']").click(function() {
+			console.log('Cancel Comments');
+			commentModal.style.display = "none";
+			$('#commentArea').val('');
+		});
+	//	END -----------
+		$("form[name='case_form']").find("input[name='response_input'][value='Submit Request']").click(function (event) {
+			var firstName = $("input[name='First_Name']").val();
+			var lastName = $("input[name='Last_Name']").val();
+			var email = ($("input[name='Email']")).val();
+			var phone = $("input[name='Phone_Number']").val();
+			var noSubmit = 0;
+			var mailErr = 0; 
+			var serial_regexp_h = /^\d{3}-\d{8}$/;
+			var rq_regexp = /^[A-Z0-9]{4} [A-Z0-9]{4} [A-Z0-9]{4} [A-Z0-9]{4} [A-Z0-9]{4} [A-Z0-9]{4} [A-Z0-9]{4} [A-Z0-9]{4}$/;
+			var phone_regexp = /^\d{3}-\d{3}-\d{4}$/;
+			var email_regexp = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
+			if (firstName == '') {
+				$("span:contains('First Name:')").html('First Name: *cannot be empty').css('color', 'red');
+				noSubmit++;
+			} else {
+				$("span:contains('First Name:')").html('First Name:').css('color', 'black');
+			}
+			if (lastName == '') {
+				$("span:contains('Last Name:')").html('Last Name: *cannot be empty').css('color', 'red');
+				noSubmit++;
+			} else {
+				$("span:contains('Last Name:')").html('Last Name:').css('color', 'black');
+			}
+			if (email == ''){
+			//	$("span:contains('Email:')").html('Email: *cannot be empty').css('color', 'red');
+				$("input[name='Email']").prev().html('Email: *cannot be empty').css('color', 'red');
+				noSubmit++;
+			}
+			else if(!email_regexp.test(email)) {
+				$("input[name='Email']").prev().html('Email: *Email address is not valid').css('color', 'red');
+			//	$("span:contains('Email:')").html('Email: *Email address is not valid').css('color', 'red');
+				noSubmit++;
+			}  
+			else {
+				$("input[name='Email']").prev().html('Email:').css('color', 'black');
+			}
+			if (phone.length > 1 && !phone_regexp.test(phone)){
+				$("input[name='Phone_Number']").prev().html('Phone Number: *please complete or erase').css('color', 'red');
+				noSubmit++;
+			} else {
+				$("input[name='Phone_Number']").prev().html('Phone Number:').css('color', 'black');
+			}
+			if (noSubmit){
+				event.preventDefault();
+			} else {
+				$('.modal').show();
+			}
+		});
+	});
+</script>
+<form name='case_form' action='/form?form_type=open_case' method='POST' id='right'>
+	<p>OPEN A CASE</p>
+	<p>
+		<span style='width: 275px; display:inline-block;'>Email:</span>
+		<input type='text' name='Email' value='{{context.dv('Email')}}'/><br>
+		<span style='width: 275px; display:inline-block;'>First Name:</span>
+		<input type='text' name='First_Name' value='{{context.dv('First_Name')}}'/><br>
+		<span style='width: 275px; display:inline-block;'>Last Name:</span>
+		<input type='text' name='Last_Name' value='{{context.dv('Last_Name')}}'/><br>
+		<span style='width: 275px; display:inline-block;'>Phone Number:</span>
+		<input type='text' name='Phone_Number' value='{{context.dv('Phone_Number')}}'/><br>
+		<input type='hidden' name='subject' value='Service_Request_Otto'/>
+		<input type='hidden' name='Description' value=''/>
+		<input type='hidden' name='Follow_Up_Request' value='true'/>
+		<input type='hidden' name='caseStatus' value='Open-Unassigned'/>
+		<input type='hidden' name='origin' value='AKN'/>
+		<input type='hidden' name='subOrigin' value='Otto'/>
+		<input type='hidden' name='Case_Area' value='Registration and Activation'/>
+		<input type='hidden' name='Sub_Area' value=''/>
+		<input type='hidden' name='Group' value=''/>
+		<input type='hidden' name='type' value='Installation, Activation & Registration'/>
+		<input type='hidden' name='topic' value='Request Activation Code'/>
+		<input type='hidden' name='systemName' value='VA'/>
+		<input type='hidden' name='comments' value='' />
+		<input type='hidden' name='productKey' value='001H1' />
+<!--	<input type='hidden' name='Serial' value=''/>
+		<input type='hidden' name='Request_Code' value=''/>
+		<input type='hidden' name='Product_Name' value=''/>
+		<input type='hidden' name='Product_Year' value=''/>
+		<input type='hidden' name='Overactivation_Reason' value=''>
+		<input type='hidden' name='SCCMEmail' value=''> -->
+		<input type='hidden' name=Field_Order value='Serial, Request_Code, Product_Name, Product_Year, SCCMEmail, Overactivation_Reason'/>
+	</p>
+	<p>
+		<input type='submit' name='response_input' id='Add_Comments' value='Add Comments'/>
+		<input type='submit' name='response_input' value='Submit Request'/>
+		<input type='submit' name='response_input' value='Chat With Agent'/>
+<!--		<table style="margin-left:-15px">
+			<tr>
+				<td>
+					<input type='submit' name='response-chat' formaction='/chat_form' value='Chat With Agent' />
+				</td>
+				<td>
+					<input type='button' class='ccase'  value='Create a Case'/>
+				</td>
+			</tr>
+		</table> -->
+	</p>
+</form>
